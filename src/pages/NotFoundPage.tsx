@@ -1,9 +1,7 @@
-function NotFoundPage(): JSX.Element {
-  return (
-    <div>
-      <h1>404 Page not found</h1>
-    </div>
-  );
+import Heading from '../components/Heading';
+
+function NotFoundPage() {
+  return <Heading>404 Page not found</Heading>;
 }
 
 export default NotFoundPage;

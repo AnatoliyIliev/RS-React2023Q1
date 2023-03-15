@@ -8,13 +8,14 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "vitest",
+    "test:coverage": "npm test -- --coverage",
     "preview": "vite preview",
     "prepare": "husky install",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+    "precommit": "lint-staged",
     "lint": "eslint -c .eslintrc.cjs --ext .tsx ./src",
-    "lint:fix": "npm run lint -- --fix",
-    "precommit": "lint-staged"
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -30,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "@vitejs/plugin-react-swc": "^3.0.0",
+    "@vitest/coverage-c8": "^0.29.2",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.25.3",
