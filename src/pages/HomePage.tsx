@@ -1,10 +1,15 @@
 import { Component } from 'react';
+
 import Heading from '../components/Heading';
 import SearchBar from '../components/SearchBar';
+import Cards from '../components/Cards';
+
+import initialCards from '../initialCards.json';
 
 class HomePage extends Component {
   state = {
     currentQuery: '',
+    cards: initialCards,
   };
 
   componentDidMount() {
@@ -25,12 +30,13 @@ class HomePage extends Component {
   };
 
   render() {
-    const { currentQuery } = this.state;
+    const { currentQuery, cards } = this.state;
 
     return (
       <>
         <Heading>Home Page</Heading>
         <SearchBar submitProps={this.submitProps} currentQuery={currentQuery} />
+        <Cards cards={cards} />
       </>
     );
   }

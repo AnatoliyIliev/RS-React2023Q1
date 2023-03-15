@@ -15,9 +15,11 @@ export interface Card {
   vote_count: number;
 }
 
+export type PropsCard = {
+  cards: Card[];
+};
+
 export interface StateHome {
-  // status: StateStatus;
-  // error: IError;
   currentQuery: string;
 }
 
@@ -32,17 +34,6 @@ export interface ChildrenHeading {
 export interface PropSeach {
   submitProps: (searchQuery: string) => void;
   currentQuery: string;
-}
-
-export enum StateStatus {
-  IDLE = 'idle',
-  PENDING = 'pending',
-  RESOLVED = 'resolved',
-  REJECTED = 'rejected',
-}
-
-export interface IError {
-  message: string;
 }
 
 export interface StateSeach {

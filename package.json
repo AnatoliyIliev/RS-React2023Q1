@@ -15,7 +15,7 @@
     "deploy": "gh-pages -d build",
     "precommit": "lint-staged",
     "lint": "eslint -c .eslintrc.cjs --ext .tsx ./src",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix --color"
   },
   "dependencies": {
     "react": "^18.2.0",
