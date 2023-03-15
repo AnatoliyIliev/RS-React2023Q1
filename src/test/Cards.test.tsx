@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
 import Cards from '../components/Cards';
@@ -35,17 +35,7 @@ describe('Cards', () => {
   });
 
   it('renders all cards', () => {
-    // const { container } = render(<Cards cards={initialCards} />);
-    // expect(container.getElementsByClassName('cards_item')).toHaveLength(20);
-    // expect(container.getElementsByClassName('cards_item').length).toBe(20);
-
-    render(<Cards cards={initialCards} />);
-    // expect(screen.queryAllByRole('list')).toHaveLength(20);
-    // expect(screen.queryAllByRole('list').length).toBe(20);
+    const { container } = render(<Cards cards={initialCards} />);
+    expect(container.getElementsByClassName('_cards_item_666487').length).toBe(20);
   });
-
-  // it('renders 20 cards', () => {
-  //   const { getAllByTestId } = render(<Cards cards={initialCards} />);
-  //   expect(getAllByTestId('cards_item')).toHaveLength(20);
-  // });
 });
