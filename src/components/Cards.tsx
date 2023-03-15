@@ -17,7 +17,7 @@ function Cards({ cards }: PropsCard) {
           const averageColorStyle = chooseColor(numberOfAverage);
 
           return (
-            <li key={card.id} className={styles.cards_card}>
+            <li key={card.id} className={styles.cards_item}>
               <img
                 width="250px"
                 height="375px"
@@ -26,11 +26,15 @@ function Cards({ cards }: PropsCard) {
                 className={styles.card_image}
               />
               <h2 className={styles.card_title}>{card.title}</h2>
-              <div className={styles.card_date}>{`${date} ${month} ${year}`}</div>
+              <div className={styles.card_date}>{`${date}.${month}.${year}`}</div>
               <div className={styles.card_circle}>
                 <span className={styles.card_average} style={{ color: `${averageColorStyle}` }}>
                   {numberOfAverage}
                 </span>
+              </div>
+              <div className={styles.card_overview}>
+                <h3>Overview</h3>
+                {card.overview}
               </div>
             </li>
           );

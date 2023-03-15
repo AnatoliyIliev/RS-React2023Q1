@@ -1,6 +1,8 @@
+@import './variables.scss';
+
 .cards {
     display: grid;
-    grid-template-columns: repeat(5, minmax(250px, auto));
+    grid-template-columns: repeat(4, minmax(250px, auto));
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     padding: 0;
@@ -8,16 +10,17 @@
     list-style: none;
 }
 
-.cards_card {
+.cards_item {
     display: block;
     position: relative;
     overflow: hidden;
     width: 250px;
     height: 510px;
-    background-color: #4169e1;
-    color: rgb(224, 185, 134);
+    background-color: $card-background-color;
+    box-shadow: 0 4px 5px $card-shadow;
+    color: $card-text-color;
     font-size: 18px;
-    border: 2px solid #4169e1;
+    border: 2px solid $card-background-color;
     border-radius: 10px 0px;
     text-align: center;
     align-items: center;
@@ -45,7 +48,7 @@
     width: 150px;
     height: 150px;
     margin: 0;
-    background: rgb(104, 148, 243);
+    background: $card-background-circle;
     border-radius: 100px;
     transform: translate(-70px, 50%);
     bottom: -14px;
@@ -57,6 +60,24 @@
     top: 28px;
     left: 30px;
     font-size: 20px;
-    color: black;
+    color: $average-text-color;
     font-weight: bold;
+}
+
+.card_overview {
+    background-color: $card-background-color;
+    padding: 2rem;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 10px;
+    max-height: 90%;
+    transform: translateY(100%);
+    overflow-y: auto;
+    transition: transform 0.3s ease-in;
+}
+
+.cards_item:hover .card_overview {
+    transform: translateY(0);
 }

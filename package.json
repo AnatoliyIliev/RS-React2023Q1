@@ -10,12 +10,12 @@
     "test": "vitest",
     "test:coverage": "npm test -- --coverage",
     "preview": "vite preview",
-    "prepare": "husky install",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "precommit": "lint-staged",
-    "lint": "eslint -c .eslintrc.cjs --ext .tsx ./src",
-    "lint:fix": "npm run lint -- --fix --color"
+    "lint": "eslint -c .eslintrc.cjs --ext .tsx src",
+    "lint:fix": "npm run lint -- --fix --color",
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -40,7 +40,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "gh-pages": "^5.0.0",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "jsdom": "^21.1.1",
     "lint-staged": "^13.2.0",
     "node-sass": "^8.0.0",
@@ -53,12 +53,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --relative"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.{ts, tsx, scss, md}": [
+    "**/*.ts": "npm run lint:fix",
+    "**/*.{ts, tsx, scss, md}": [
       "prettier --write --config .prettierrc.cjs",
       "tslint --project tslint.ide_only.json --fix --force",
       "sh lint.sh partner-account",
