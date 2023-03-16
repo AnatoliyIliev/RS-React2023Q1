@@ -11,7 +11,7 @@
     "test:coverage": "npm test -- --coverage",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "precommit": "lint-staged",
     "lint": "eslint -c .eslintrc.cjs --ext .tsx src",
     "lint:fix": "npm run lint -- --fix --color",
