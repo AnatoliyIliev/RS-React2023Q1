@@ -16,6 +16,12 @@ function Navigation() {
       >
         About Us
       </NavLink>
+      <NavLink
+        to="/form"
+        className={({ isActive }) => (isActive ? styles.activeStyle : styles.navigation)}
+      >
+        Form
+      </NavLink>
     </nav>
   );
 }
