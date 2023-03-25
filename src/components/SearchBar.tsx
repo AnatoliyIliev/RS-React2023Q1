@@ -1,24 +1,34 @@
 import { Component } from 'react';
 
 import styles from '../styles/SearchBar.module.scss';
-import { PropSeach, StateSeach } from '../types';
 
-class SearchBar extends Component<PropSeach, StateSeach> {
+class SearchBar extends Component {
   state = {
     searchQuery: '',
   };
 
+  componentDidMount() {
+    const query = localStorage.getItem('query');
+    const parseQuery = JSON.parse(query!);
+    if (parseQuery) {
+      this.setState({ searchQuery: parseQuery });
+    }
+  }
+
+  componentWillUnmount() {
+    const { searchQuery } = this.state;
+    localStorage.setItem('query', JSON.stringify(searchQuery));
+  }
+
   handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const { searchQuery } = this.state;
-    const { submitProps } = this.props;
 
     if (searchQuery.trim() === '') {
       alert('Enter something to search.');
       return;
     }
 
-    submitProps(this.state.searchQuery);
     this.setState({ searchQuery: '' });
   };
 
@@ -29,7 +39,6 @@ class SearchBar extends Component<PropSeach, StateSeach> {
 
   render() {
     const { searchQuery } = this.state;
-    const { currentQuery } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} className={styles.SearchForm}>
@@ -40,7 +49,7 @@ class SearchBar extends Component<PropSeach, StateSeach> {
           onChange={this.handleChange}
           autoComplete="off"
           autoFocus
-          placeholder={currentQuery || 'Search'}
+          placeholder={'Search'}
         />
         <button type="submit" className={styles.SearchForm_button}>
           Search

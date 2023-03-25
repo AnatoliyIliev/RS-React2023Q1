@@ -30,12 +30,3 @@ export interface ChildrenProps {
 export interface ChildrenHeading {
   children: string;
 }
-
-export interface PropSeach {
-  submitProps: (searchQuery: string) => void;
-  currentQuery: string;
-}
-
-export interface StateSeach {
-  searchQuery: string;
-}

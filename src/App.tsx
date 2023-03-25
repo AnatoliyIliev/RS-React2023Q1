@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutUsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import FormPage from './pages/FormPage';
+import FormsPage from './pages/FormsPage';
 import Layout from './components/Layout';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutUsPage />} />
-        <Route path="form" element={<FormPage />}></Route>
+        <Route path="form" element={<FormsPage />}></Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
