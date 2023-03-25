@@ -10,6 +10,7 @@ class SearchBar extends Component {
   componentDidMount() {
     const query = localStorage.getItem('query');
     const parseQuery = JSON.parse(query!);
+
     if (parseQuery) {
       this.setState({ searchQuery: parseQuery });
     }
@@ -17,6 +18,7 @@ class SearchBar extends Component {
 
   componentWillUnmount() {
     const { searchQuery } = this.state;
+
     localStorage.setItem('query', JSON.stringify(searchQuery));
   }
 

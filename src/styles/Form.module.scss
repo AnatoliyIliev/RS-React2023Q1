@@ -1,0 +1,49 @@
+@import './variables.scss';
+
+.form {
+    display: grid;
+    box-sizing: border-box;
+    grid-row-gap: 10px;
+    width: 300px;
+    padding: 0;
+    justify-content: center;
+    list-style: none;
+    border: 1px solid $color-border-form;
+    border-radius: 5px ;
+    
+}
+
+.from_name {
+    display: block;
+}
+
+.form_input {
+    display: block;
+    margin: 10px auto;
+    width: 280px;
+    height: 30px;
+    border: 1px solid $color-input-form;
+    border-radius: 50px;
+    overflow: hidden;
+    outline: none;
+    align-items: center;
+    box-shadow: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.form_input:hover {
+    box-shadow: 0 4px 5px $input-shadow;
+}
+
+// .form_data {
+//     display: block;
+//     width: 150px;
+// }
+
+.form_radio {
+    display: block;
+}
+
+// .form_checkbox {
+
+// }
