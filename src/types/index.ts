@@ -30,3 +30,23 @@ export interface ChildrenProps {
 export interface ChildrenHeading {
   children: string;
 }
+
+export interface CardForm {
+  id: string;
+  name: string;
+  phone: string;
+  date: string;
+  gender: string;
+  genre: string;
+  file: string;
+  agree: boolean;
+}
+
+export interface StateForm {
+  formCards: CardForm[];
+}
+
+export interface PropsFrom {
+  onSubmitForm?: (addNewCard: CardForm) => void;
+  formCards?: CardForm[];
+}

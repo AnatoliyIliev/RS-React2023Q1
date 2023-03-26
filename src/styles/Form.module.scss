@@ -9,8 +9,7 @@
     justify-content: center;
     list-style: none;
     border: 1px solid $color-border-form;
-    border-radius: 5px ;
-    
+    border-radius: 5px ;    
 }
 
 .from_name {
@@ -35,15 +34,10 @@
     box-shadow: 0 4px 5px $input-shadow;
 }
 
-// .form_data {
-//     display: block;
-//     width: 150px;
-// }
-
 .form_radio {
     display: block;
 }
 
-// .form_checkbox {
-
-// }
+.form_message {
+    color: $color-message;
+}

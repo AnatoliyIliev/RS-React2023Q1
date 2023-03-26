@@ -1,18 +1,21 @@
 import React, { Component, createRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import styles from '../styles/Form.module.scss';
 
-class Form extends Component {
+import { PropsFrom } from '../types';
+
+class Form extends Component<PropsFrom> {
   name: React.RefObject<HTMLInputElement>;
   phone: React.RefObject<HTMLInputElement>;
   date: React.RefObject<HTMLInputElement>;
   radioMale: React.RefObject<HTMLInputElement>;
   radioFemale: React.RefObject<HTMLInputElement>;
   select: React.RefObject<HTMLSelectElement>;
-  checkbox: React.RefObject<HTMLInputElement>;
   file: React.RefObject<HTMLInputElement>;
+  checkbox: React.RefObject<HTMLInputElement>;
   message: React.RefObject<HTMLDivElement>;
 
-  constructor(props: Record<string, never>) {
+  constructor(props: PropsFrom) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.name = createRef();
@@ -21,15 +24,17 @@ class Form extends Component {
     this.radioMale = createRef();
     this.radioFemale = createRef();
     this.select = createRef();
-    this.checkbox = createRef();
     this.file = createRef();
+    this.checkbox = createRef();
     this.message = createRef();
   }
 
-  handleSubmit(event: React.SyntheticEvent) {
+  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const { onSubmitForm } = this.props;
+    const cardID = uuidv4();
 
-    const { name, phone, date, radioMale, radioFemale, select, checkbox, file, message } = this;
+    const { name, phone, date, radioMale, radioFemale, select, file, checkbox, message } = this;
 
     const currentName = (name.current as HTMLInputElement).value;
     const currentPhone = (phone.current as HTMLInputElement).value;
@@ -37,8 +42,8 @@ class Form extends Component {
     const currentRadioMale = (radioMale.current as HTMLInputElement).checked;
     const currentRadioFemale = (radioFemale.current as HTMLInputElement).checked;
     const currentSelect = (select.current as HTMLSelectElement).value;
-    const currentCheckbox = (checkbox.current as HTMLInputElement).checked;
     const currentFile = (file.current as HTMLInputElement).value;
+    const currentCheckbox = (checkbox.current as HTMLInputElement).checked;
 
     let gender = '';
     if (currentRadioMale) {
@@ -47,15 +52,27 @@ class Form extends Component {
       gender = (radioFemale.current as HTMLInputElement).alt;
     }
 
-    console.log(
-      currentName,
-      currentPhone,
-      currentDate,
-      gender,
-      currentSelect,
-      currentCheckbox,
-      currentFile
-    );
+    console.log(file.current?.files);
+    const fileImg = file.current?.files?.[0];
+    console.log(fileImg);
+    console.log(currentFile);
+    const imageUrl = fileImg ? URL.createObjectURL(fileImg) : '';
+
+    if (fileImg) {
+      URL.revokeObjectURL(imageUrl);
+    }
+
+    onSubmitForm &&
+      onSubmitForm({
+        id: cardID,
+        name: currentName,
+        phone: currentPhone,
+        date: currentDate,
+        gender: gender,
+        genre: currentSelect,
+        file: imageUrl,
+        agree: currentCheckbox,
+      });
 
     (message.current as HTMLDivElement).innerHTML = 'The data has been saved';
 
@@ -69,15 +86,15 @@ class Form extends Component {
     (radioMale.current as HTMLInputElement).checked = false;
     (radioFemale.current as HTMLInputElement).checked = false;
     (select.current as HTMLSelectElement).value = '';
-    (checkbox.current as HTMLInputElement).checked = false;
     (file.current as HTMLInputElement).value = '';
+    (checkbox.current as HTMLInputElement).checked = false;
   }
 
   render() {
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
         <label>
-          <div className={styles.from_name}>Name:</div>
+          <div className={styles.from_name}>Name:*</div>
           <input
             className={styles.form_input}
             type="text"
@@ -91,7 +108,7 @@ class Form extends Component {
           />
         </label>
         <label>
-          <div className={styles.from_name}>Phone Number:</div>
+          <div className={styles.from_name}>Phone Number:*</div>
           <input
             className={styles.form_input}
             type="tel"
@@ -104,13 +121,20 @@ class Form extends Component {
           />
         </label>
         <label>
-          <div className={styles.from_name}>Birth Date:</div>
-          <input className={styles.form_data} type="date" name="date" ref={this.date} required />
+          <div className={styles.from_name}>Birth Date:*</div>
+          <input
+            className={styles.form_data}
+            type="date"
+            name="birthdate"
+            ref={this.date}
+            pattern="/^\d{2}-\d{2}-\d{4}$/"
+            title="Please enter the date of birth in the DD-MM-YYYY format."
+            required
+          />
         </label>
         <label htmlFor="male">
-          <div className={styles.from_name}>Gender:</div>
+          <div className={styles.from_name}>Gender:*</div>
           <input
-            // className={styles.form_radio}
             type="radio"
             id="male"
             alt="Male"
@@ -121,7 +145,6 @@ class Form extends Component {
           />
           Male
           <input
-            // className={styles.form_radio}
             type="radio"
             id="male"
             alt="Female"
@@ -133,8 +156,8 @@ class Form extends Component {
           Female
         </label>
         <label>
-          <div className={styles.from_name}>Pick your favorite genre:</div>
-          <select ref={this.select} required>
+          <div className={styles.from_name}>Pick your favorite genre:*</div>
+          <select ref={this.select} name="genre" required>
             <option value="">--Genre--</option>
             <option value="action">action</option>
             <option value="adventure">adventure</option>
@@ -156,17 +179,15 @@ class Form extends Component {
           </select>
         </label>
         <label>
-          <input className={styles.form_checkbox} type="checkbox" ref={this.checkbox} required />I
-          consent to my personal data
+          <div className={styles.from_name}>Avatar:*</div>
+          <input className={styles.form_file} type="file" name="file" ref={this.file} required />
         </label>
         <label>
-          <div className={styles.from_name}>Avatar:</div>
-          <input className={styles.form_file} type="file" ref={this.file} required />
+          <input className={styles.form_checkbox} type="checkbox" ref={this.checkbox} required />I
+          consent to my personal data*
         </label>
-        <button type="submit" disabled={false}>
-          Submit
-        </button>
-        <div className={styles.Form_message} ref={this.message}></div>
+        <button type="submit">Submit</button>
+        <div className={styles.form_message} ref={this.message}></div>
       </form>
     );
   }
