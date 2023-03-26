@@ -38,6 +38,11 @@
     display: block;
 }
 
+.form_erroe_message {
+    color: $color-error_message;
+}
+
 .form_message {
     color: $color-message;
+    font-weight: 800;
 }

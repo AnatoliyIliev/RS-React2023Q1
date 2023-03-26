@@ -32,7 +32,7 @@ export interface ChildrenHeading {
 }
 
 export interface CardForm {
-  id: string;
+  id: number;
   name: string;
   phone: string;
   date: string;
@@ -52,5 +52,5 @@ export interface PropsFroms {
 }
 
 export type StateForm = {
-  messageSubmit: boolean;
+  submitMessage: boolean;
 };

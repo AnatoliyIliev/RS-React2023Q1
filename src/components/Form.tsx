@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import styles from '../styles/Form.module.scss';
 
 import { PropsFroms, StateForm } from '../types';
@@ -27,14 +26,13 @@ class Form extends Component<PropsFroms, StateForm> {
     this.checkbox = createRef();
 
     this.state = {
-      messageSubmit: false,
+      submitMessage: false,
     };
   }
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const { onSubmitForm } = this.props;
-    const cardID = uuidv4();
 
     const { name, phone, date, radioMale, radioFemale, select, file, checkbox } = this;
 
@@ -54,14 +52,11 @@ class Form extends Component<PropsFroms, StateForm> {
     }
 
     const fileImg = file.current?.files?.[0];
-    let image = '';
-    if (fileImg) {
-      image = URL.createObjectURL(fileImg);
-    }
+    const image = fileImg ? URL.createObjectURL(fileImg) : '';
 
     onSubmitForm &&
       onSubmitForm({
-        id: cardID,
+        id: Date.now(),
         name: currentName,
         phone: currentPhone,
         date: currentDate,
@@ -89,15 +84,15 @@ class Form extends Component<PropsFroms, StateForm> {
   };
 
   onVisiblMessageSubmit = () => {
-    this.setState({ messageSubmit: true });
+    this.setState({ submitMessage: true });
 
     setTimeout(() => {
-      this.setState({ messageSubmit: false });
+      this.setState({ submitMessage: false });
     }, 2000);
   };
 
   render() {
-    const { messageSubmit } = this.state;
+    const { submitMessage } = this.state;
 
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
@@ -123,9 +118,9 @@ class Form extends Component<PropsFroms, StateForm> {
             name="phone"
             ref={this.phone}
             placeholder="Phome number"
-            required
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="The phone number must be numeric and may contain spaces, dashes, parentheses, and may begin with +"
+            required
           />
         </label>
         <label>
@@ -135,7 +130,8 @@ class Form extends Component<PropsFroms, StateForm> {
             type="date"
             name="birthdate"
             ref={this.date}
-            pattern="/^\d{2}-\d{2}-\d{4}$/"
+            min="1920-01-01"
+            max="2000-01-01"
             title="Please enter the date of birth in the DD-MM-YYYY format."
             required
           />
@@ -195,7 +191,7 @@ class Form extends Component<PropsFroms, StateForm> {
           consent to my personal data*
         </label>
         <button type="submit">Submit</button>
-        {messageSubmit && <div className={styles.form_message}>The data has been saved</div>}
+        {submitMessage && <div className={styles.form_message}>The data has been saved</div>}
       </form>
     );
   }

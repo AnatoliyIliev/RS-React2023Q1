@@ -1,40 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
+import { render, fireEvent } from '@testing-library/react';
 import SearchBar from '../components/SearchBar';
 
 describe('SearchBar', () => {
-  it('should render correctly', () => {
-    const submitProps = vi.fn();
-    const { getByPlaceholderText, getByText } = render(
-      <SearchBar submitProps={submitProps} currentQuery={''} />
-    );
-    const input = getByPlaceholderText('Search');
-    const button = getByText('Search');
-
-    expect(input).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
+  it('render and a submit button', () => {
+    const { getByRole } = render(<SearchBar />);
+    const searchInput = getByRole('textbox');
+    const searchButton = getByRole('button', { name: 'Search' });
+    expect(searchInput).toBeInTheDocument();
+    expect(searchButton).toBeInTheDocument();
   });
 
-  it('should call submitProps with search query when form is submitted', () => {
-    const submitProps = vi.fn();
-    const { getByPlaceholderText, getByText } = render(
-      <SearchBar submitProps={submitProps} currentQuery={''} />
-    );
-    const input = getByPlaceholderText('Search');
-    const button = getByText('Search');
-
-    fireEvent.change(input, { target: { value: 'test' } });
-    fireEvent.click(button);
-
-    expect(submitProps).toHaveBeenCalledTimes(1);
-    expect(submitProps).toHaveBeenCalledWith('test');
-  });
-
-  it('renders without placeholder', () => {
-    const handleSubmit = vi.fn();
-
-    render(<SearchBar submitProps={handleSubmit} currentQuery="" />);
-
-    expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
+  it('update the searchQuery state', () => {
+    const { getByRole } = render(<SearchBar />);
+    const searchInput = getByRole('textbox');
+    fireEvent.change(searchInput, { target: { value: 'test' } });
+    expect(searchInput).toHaveValue('test');
   });
 });

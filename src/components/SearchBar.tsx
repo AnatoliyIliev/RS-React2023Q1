@@ -5,6 +5,7 @@ import styles from '../styles/SearchBar.module.scss';
 class SearchBar extends Component {
   state = {
     searchQuery: '',
+    err: false,
   };
 
   componentDidMount() {
@@ -26,8 +27,10 @@ class SearchBar extends Component {
     event.preventDefault();
     const { searchQuery } = this.state;
 
+    this.setState({ err: false });
+
     if (searchQuery.trim() === '') {
-      alert('Enter something to search.');
+      this.setState({ err: true });
       return;
     }
 
@@ -40,23 +43,26 @@ class SearchBar extends Component {
   };
 
   render() {
-    const { searchQuery } = this.state;
+    const { searchQuery, err } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className={styles.SearchForm}>
-        <input
-          className={styles.SearchForm_input}
-          type="text"
-          value={searchQuery}
-          onChange={this.handleChange}
-          autoComplete="off"
-          autoFocus
-          placeholder={'Search'}
-        />
-        <button type="submit" className={styles.SearchForm_button}>
-          Search
-        </button>
-      </form>
+      <>
+        <form onSubmit={this.handleSubmit} className={styles.SearchForm}>
+          <input
+            className={styles.SearchForm_input}
+            type="text"
+            value={searchQuery}
+            onChange={this.handleChange}
+            autoComplete="off"
+            autoFocus
+            placeholder={'Search'}
+          />
+          <button type="submit" className={styles.SearchForm_button}>
+            Search
+          </button>
+        </form>
+        {err && <div style={{ color: 'red', textAlign: 'center' }}>Enter something to search.</div>}
+      </>
     );
   }
 }
