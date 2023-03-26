@@ -42,11 +42,15 @@ export interface CardForm {
   agree: boolean;
 }
 
-export interface StateForm {
+export interface StateForms {
   formCards: CardForm[];
 }
 
-export interface PropsFrom {
+export interface PropsFroms {
   onSubmitForm?: (addNewCard: CardForm) => void;
   formCards?: CardForm[];
 }
+
+export type StateForm = {
+  messageSubmit: boolean;
+};

@@ -3,9 +3,9 @@ import Heading from '../components/Heading';
 import Form from '../components/Form';
 import FormCard from '../components/FormCards';
 
-import { CardForm, StateForm, PropsFrom } from '../types';
+import { CardForm, StateForms, PropsFroms } from '../types';
 
-class FormsPage extends Component<PropsFrom, StateForm> {
+class FormsPage extends Component<PropsFroms, StateForms> {
   state = {
     formCards: [],
   };

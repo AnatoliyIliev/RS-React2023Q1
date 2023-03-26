@@ -2,9 +2,9 @@ import React, { Component, createRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from '../styles/Form.module.scss';
 
-import { PropsFrom } from '../types';
+import { PropsFroms, StateForm } from '../types';
 
-class Form extends Component<PropsFrom> {
+class Form extends Component<PropsFroms, StateForm> {
   name: React.RefObject<HTMLInputElement>;
   phone: React.RefObject<HTMLInputElement>;
   date: React.RefObject<HTMLInputElement>;
@@ -13,9 +13,8 @@ class Form extends Component<PropsFrom> {
   select: React.RefObject<HTMLSelectElement>;
   file: React.RefObject<HTMLInputElement>;
   checkbox: React.RefObject<HTMLInputElement>;
-  message: React.RefObject<HTMLDivElement>;
 
-  constructor(props: PropsFrom) {
+  constructor(props: PropsFroms) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.name = createRef();
@@ -26,7 +25,10 @@ class Form extends Component<PropsFrom> {
     this.select = createRef();
     this.file = createRef();
     this.checkbox = createRef();
-    this.message = createRef();
+
+    this.state = {
+      messageSubmit: false,
+    };
   }
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -34,7 +36,7 @@ class Form extends Component<PropsFrom> {
     const { onSubmitForm } = this.props;
     const cardID = uuidv4();
 
-    const { name, phone, date, radioMale, radioFemale, select, file, checkbox, message } = this;
+    const { name, phone, date, radioMale, radioFemale, select, file, checkbox } = this;
 
     const currentName = (name.current as HTMLInputElement).value;
     const currentPhone = (phone.current as HTMLInputElement).value;
@@ -42,7 +44,6 @@ class Form extends Component<PropsFrom> {
     const currentRadioMale = (radioMale.current as HTMLInputElement).checked;
     const currentRadioFemale = (radioFemale.current as HTMLInputElement).checked;
     const currentSelect = (select.current as HTMLSelectElement).value;
-    const currentFile = (file.current as HTMLInputElement).value;
     const currentCheckbox = (checkbox.current as HTMLInputElement).checked;
 
     let gender = '';
@@ -52,14 +53,10 @@ class Form extends Component<PropsFrom> {
       gender = (radioFemale.current as HTMLInputElement).alt;
     }
 
-    console.log(file.current?.files);
     const fileImg = file.current?.files?.[0];
-    console.log(fileImg);
-    console.log(currentFile);
-    const imageUrl = fileImg ? URL.createObjectURL(fileImg) : '';
-
+    let image = '';
     if (fileImg) {
-      URL.revokeObjectURL(imageUrl);
+      image = URL.createObjectURL(fileImg);
     }
 
     onSubmitForm &&
@@ -70,15 +67,16 @@ class Form extends Component<PropsFrom> {
         date: currentDate,
         gender: gender,
         genre: currentSelect,
-        file: imageUrl,
+        file: image,
         agree: currentCheckbox,
       });
 
-    (message.current as HTMLDivElement).innerHTML = 'The data has been saved';
+    this.onVisiblMessageSubmit();
+    this.onResetData();
+  }
 
-    setTimeout(() => {
-      (message.current as HTMLDivElement).innerHTML = '';
-    }, 2000);
+  onResetData = () => {
+    const { name, phone, date, radioMale, radioFemale, select, file, checkbox } = this;
 
     (name.current as HTMLInputElement).value = '';
     (phone.current as HTMLInputElement).value = '';
@@ -88,9 +86,19 @@ class Form extends Component<PropsFrom> {
     (select.current as HTMLSelectElement).value = '';
     (file.current as HTMLInputElement).value = '';
     (checkbox.current as HTMLInputElement).checked = false;
-  }
+  };
+
+  onVisiblMessageSubmit = () => {
+    this.setState({ messageSubmit: true });
+
+    setTimeout(() => {
+      this.setState({ messageSubmit: false });
+    }, 2000);
+  };
 
   render() {
+    const { messageSubmit } = this.state;
+
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
         <label>
@@ -187,7 +195,7 @@ class Form extends Component<PropsFrom> {
           consent to my personal data*
         </label>
         <button type="submit">Submit</button>
-        <div className={styles.form_message} ref={this.message}></div>
+        {messageSubmit && <div className={styles.form_message}>The data has been saved</div>}
       </form>
     );
   }

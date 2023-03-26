@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import styles from '../styles/FormCards.module.scss';
 
-import { PropsFrom } from '../types';
+import { PropsFroms } from '../types';
 
-class FormCard extends Component<PropsFrom> {
+class FormCard extends Component<PropsFroms> {
   render() {
     const { formCards } = this.props;
 
@@ -13,7 +13,7 @@ class FormCard extends Component<PropsFrom> {
           {formCards?.map(({ id, name, phone, date, gender, genre, file, agree }) => {
             return (
               <li key={id} className={styles.card}>
-                <img src={file} alt="avatar" />
+                <img className={styles.image} src={file} alt="avatar" />
                 <p>Name: {name}</p>
                 <p>Phone Number: {phone}</p>
                 <time>Birth Date: {date}</time>
