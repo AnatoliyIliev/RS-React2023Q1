@@ -51,13 +51,17 @@ export interface PropsFroms {
   formCards?: CardForm[];
 }
 
+export interface ErrorValidation {
+  nameValid: string;
+  phoneValid: string;
+  dateValid: string;
+  genderValid: string;
+  ganreValid: string;
+  fileValid: string;
+  checkboxValid: string;
+}
+
 export type StateForm = {
   submitMessage: boolean;
-  nameError: string;
-  phoneError: string;
-  dateError: string;
-  genderError: string;
-  selectError: string;
-  fileError: string;
-  checkboxError: string;
+  errorValidation: ErrorValidation;
 };

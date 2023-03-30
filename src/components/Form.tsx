@@ -1,6 +1,16 @@
 import React, { Component, createRef } from 'react';
 import styles from '../styles/Form.module.scss';
 
+import {
+  nameValidation,
+  phoneValidation,
+  dateValidation,
+  genderValidation,
+  ganreValidation,
+  fileValidation,
+  checkboxValidation,
+} from './ValidationForm';
+
 import { PropsFroms, StateForm } from '../types';
 
 class Form extends Component<PropsFroms, StateForm> {
@@ -27,13 +37,15 @@ class Form extends Component<PropsFroms, StateForm> {
 
     this.state = {
       submitMessage: false,
-      nameError: '',
-      phoneError: '',
-      dateError: '',
-      genderError: '',
-      selectError: '',
-      fileError: '',
-      checkboxError: '',
+      errorValidation: {
+        nameValid: '',
+        phoneValid: '',
+        dateValid: '',
+        genderValid: '',
+        ganreValid: '',
+        fileValid: '',
+        checkboxValid: '',
+      },
     };
   }
 
@@ -61,16 +73,34 @@ class Form extends Component<PropsFroms, StateForm> {
     const fileImg = file.current?.files?.[0];
     const image = fileImg ? URL.createObjectURL(fileImg) : '';
 
-    const validation = this.onValidationData(
-      currentName,
-      currentPhone,
-      currentDate,
-      currentRadioMale,
-      currentRadioFemale,
-      currentSelect,
-      file,
-      currentCheckbox
-    );
+    const nameValid = nameValidation(currentName);
+    const phoneValid = phoneValidation(currentPhone);
+    const dateValid = dateValidation(currentDate);
+    const genderValid = genderValidation(currentRadioMale, currentRadioFemale);
+    const ganreValid = ganreValidation(currentSelect);
+    const fileValid = fileValidation(file);
+    const checkboxValid = checkboxValidation(currentCheckbox);
+
+    this.setState({
+      errorValidation: {
+        nameValid,
+        phoneValid,
+        dateValid,
+        genderValid,
+        ganreValid,
+        fileValid,
+        checkboxValid,
+      },
+    });
+
+    const validation =
+      nameValid === '' &&
+      phoneValid === '' &&
+      dateValid === '' &&
+      genderValid === '' &&
+      ganreValid === '' &&
+      fileValid === '' &&
+      checkboxValid === '';
 
     if (validation) {
       onSubmitForm &&
@@ -111,123 +141,11 @@ class Form extends Component<PropsFroms, StateForm> {
     }, 2000);
   };
 
-  onValidationData = (
-    currentName: string,
-    currentPhone: string,
-    currentDate: string,
-    currentRadioMale: boolean,
-    currentRadioFemale: boolean,
-    currentSelect: string,
-    file: React.RefObject<HTMLInputElement>,
-    currentCheckbox: boolean
-  ) => {
-    const nameTest = /^[A-Z]/.test(currentName);
-    const phoneTest =
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/.test(
-        currentPhone
-      );
-
-    let nameCheckt = true;
-    let phoneCheckt = true;
-    let dateCheckt = true;
-    let genderCheckt = true;
-    let ganreCheckt = true;
-    let fileCheckt = true;
-    let checkboxCheckt = true;
-
-    if (currentName.trim() === '') {
-      this.setState({ nameError: 'Enter something' });
-      nameCheckt = false;
-    } else if (!nameTest) {
-      this.setState({
-        nameError: 'The name can only contain letters, an apostrophe, a dash, and spaces',
-      });
-      nameCheckt = false;
-    } else {
-      this.setState({ nameError: '' });
-      nameCheckt = true;
-    }
-
-    if (currentPhone.trim() === '') {
-      this.setState({ phoneError: 'Enter something' });
-      phoneCheckt = false;
-    } else if (!phoneTest) {
-      this.setState({
-        phoneError: 'The phone number must be numbers',
-      });
-      phoneCheckt = false;
-    } else {
-      this.setState({ phoneError: '' });
-      phoneCheckt = true;
-    }
-
-    if (currentDate === '') {
-      this.setState({ dateError: 'Please enter the date of birth.' });
-      dateCheckt = false;
-    } else {
-      this.setState({ dateError: '' });
-      dateCheckt = true;
-    }
-
-    if (!currentRadioMale && !currentRadioFemale) {
-      this.setState({ genderError: 'Choose your gender.' });
-      genderCheckt = false;
-    } else {
-      this.setState({ genderError: '' });
-      genderCheckt = true;
-    }
-
-    if (currentSelect === '') {
-      this.setState({ selectError: 'Choose your favorite ganre.' });
-      ganreCheckt = false;
-    } else {
-      this.setState({ selectError: '' });
-      ganreCheckt = true;
-    }
-
-    const fileImg = file.current?.files?.[0];
-
-    if (!fileImg) {
-      this.setState({ fileError: 'Add your avatar' });
-      fileCheckt = false;
-    } else if (fileImg && /\.(jpe?g|png|gif)$/i.test(fileImg.name) === false) {
-      this.setState({ fileError: 'File must be .jpeg, .jpg, .png, .gif' });
-      fileCheckt = false;
-    } else {
-      this.setState({ fileError: '' });
-      fileCheckt = true;
-    }
-
-    if (!currentCheckbox) {
-      this.setState({ checkboxError: 'Agree consent to my personal data' });
-      checkboxCheckt = false;
-    } else {
-      this.setState({ checkboxError: '' });
-      checkboxCheckt = true;
-    }
-
-    return (
-      nameCheckt &&
-      phoneCheckt &&
-      dateCheckt &&
-      genderCheckt &&
-      ganreCheckt &&
-      fileCheckt &&
-      checkboxCheckt
-    );
-  };
-
   render() {
-    const {
-      submitMessage,
-      nameError,
-      phoneError,
-      dateError,
-      genderError,
-      selectError,
-      fileError,
-      checkboxError,
-    } = this.state;
+    const { submitMessage } = this.state;
+
+    const { nameValid, phoneValid, dateValid, genderValid, ganreValid, fileValid, checkboxValid } =
+      this.state.errorValidation;
 
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
@@ -241,7 +159,7 @@ class Form extends Component<PropsFroms, StateForm> {
             placeholder="Name"
             autoFocus
           />
-          {nameError && <div className={styles.form_erroe_message}>{nameError}</div>}
+          {nameValid && <div className={styles.form_erroe_message}>{nameValid}</div>}
         </label>
         <label>
           <div className={styles.from_name}>Phone Number:*</div>
@@ -252,7 +170,7 @@ class Form extends Component<PropsFroms, StateForm> {
             ref={this.phone}
             placeholder="Phome number"
           />
-          {phoneError && <div className={styles.form_erroe_message}>{phoneError}</div>}
+          {phoneValid && <div className={styles.form_erroe_message}>{phoneValid}</div>}
         </label>
         <label>
           <div className={styles.from_name}>Birth Date:*</div>
@@ -264,7 +182,7 @@ class Form extends Component<PropsFroms, StateForm> {
             min="1920-01-01"
             max="2000-01-01"
           />
-          {dateError && <div className={styles.form_erroe_message}>{dateError}</div>}
+          {dateValid && <div className={styles.form_erroe_message}>{dateValid}</div>}
         </label>
         <label htmlFor="male">
           <div className={styles.from_name}>Gender:*</div>
@@ -286,7 +204,7 @@ class Form extends Component<PropsFroms, StateForm> {
             autoComplete="off"
           />
           Female
-          {genderError && <div className={styles.form_erroe_message}>{genderError}</div>}
+          {genderValid && <div className={styles.form_erroe_message}>{genderValid}</div>}
         </label>
         <label>
           <div className={styles.from_name}>Pick your favorite genre:*</div>
@@ -310,17 +228,17 @@ class Form extends Component<PropsFroms, StateForm> {
             <option value="western">western</option>
             <option value="post-apocalyptic">post-apocalyptic</option>
           </select>
-          {selectError && <div className={styles.form_erroe_message}>{selectError}</div>}
+          {ganreValid && <div className={styles.form_erroe_message}>{ganreValid}</div>}
         </label>
         <label>
           <div className={styles.from_name}>Avatar:*</div>
           <input className={styles.form_file} type="file" name="file" ref={this.file} />
-          {fileError && <div className={styles.form_erroe_message}>{fileError}</div>}
+          {fileValid && <div className={styles.form_erroe_message}>{fileValid}</div>}
         </label>
         <label>
           <input className={styles.form_checkbox} type="checkbox" ref={this.checkbox} />I consent to
           my personal data*
-          {checkboxError && <div className={styles.form_erroe_message}>{checkboxError}</div>}
+          {checkboxValid && <div className={styles.form_erroe_message}>{checkboxValid}</div>}
         </label>
         <button type="submit">Submit</button>
         {submitMessage && <div className={styles.form_message}>The data has been saved</div>}
