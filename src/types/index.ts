@@ -53,4 +53,11 @@ export interface PropsFroms {
 
 export type StateForm = {
   submitMessage: boolean;
+  nameError: string;
+  phoneError: string;
+  dateError: string;
+  genderError: string;
+  selectError: string;
+  fileError: string;
+  checkboxError: string;
 };
