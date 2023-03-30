@@ -6,17 +6,17 @@ import FormCard from '../components/FormCards';
 import { CardForm } from '../types';
 
 function FormsPage() {
-  const [cards, setCards] = useState<CardForm[]>([]);
+  const [formCards, setFormCards] = useState<CardForm[]>([]);
 
   const onSubmitForm = (addNewCard: CardForm) => {
-    setCards((prevState) => [addNewCard, ...prevState]);
+    setFormCards((prevState) => [addNewCard, ...prevState]);
   };
 
   return (
     <>
       <Heading>Form</Heading>
       <Form onSubmitForm={onSubmitForm} />
-      {cards.length > 0 && <FormCard formCards={cards} />}
+      {formCards.length > 0 && <FormCard formCards={formCards} />}
     </>
   );
 }
