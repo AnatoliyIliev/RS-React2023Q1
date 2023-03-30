@@ -1,0 +1,33 @@
+@import './variables.scss';
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(250px, auto));
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    padding: 0;
+    justify-content: center;
+    list-style: none;
+}
+
+.card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 250px;
+    background-color: $card-background-color;
+    box-shadow: 0 4px 5px $card-shadow;
+    color: $card-text-color;
+    font-size: 18px;
+    border: 2px solid $card-background-color;
+    border-radius: 10px 0px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.image {
+    width: 240px;
+    height: 240px;
+}
