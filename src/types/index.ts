@@ -42,9 +42,9 @@ export interface CardForm {
   agree: boolean;
 }
 
-export interface StateForms {
-  formCards: CardForm[];
-}
+// export interface StateForms {
+//   formCards: CardForm[];
+// }
 
 export interface PropsFroms {
   onSubmitForm?: (addNewCard: CardForm) => void;
