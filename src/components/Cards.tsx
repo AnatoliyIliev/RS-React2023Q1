@@ -1,11 +1,6 @@
 import { PropsCard } from '../types';
+import chooseColor from './chooseColor';
 import styles from '../styles/Cards.module.scss';
-
-function chooseColor(value: number) {
-  if (value < 5) return 'red';
-  else if (value >= 5 && value < 8) return 'orange';
-  else if (value >= 8) return 'green';
-}
 
 function Cards({ cards }: PropsCard) {
   return (
