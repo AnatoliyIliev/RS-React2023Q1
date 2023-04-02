@@ -34,17 +34,13 @@ export interface ChildrenHeading {
 export interface CardForm {
   id: number;
   name: string;
-  phone: string;
+  phone: number;
   date: string;
   gender: string;
   genre: string;
   file: string;
   agree: boolean;
 }
-
-// export interface StateForms {
-//   formCards: CardForm[];
-// }
 
 export interface PropsFroms {
   onSubmitForm?: (addNewCard: CardForm) => void;
@@ -64,4 +60,14 @@ export interface ErrorValidation {
 export type StateForm = {
   submitMessage: boolean;
   errorValidation: ErrorValidation;
+};
+
+export type Inputs = {
+  name: string;
+  phone: number;
+  date: string;
+  gender: string;
+  genre: string;
+  file: File[];
+  checkbox: boolean;
 };

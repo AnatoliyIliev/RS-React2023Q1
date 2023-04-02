@@ -20,11 +20,12 @@ function SearchBar() {
 
       return;
     }
+
     setSearchQuery('');
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentSearch = event.currentTarget.value.toLowerCase();
+    const currentSearch = event.currentTarget.value;
 
     setSearchQuery(currentSearch);
   };

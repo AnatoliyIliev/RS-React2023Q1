@@ -34,10 +34,10 @@ export const dateValidation = (currentDate: string) => {
   return (dateError = '');
 };
 
-export const genderValidation = (currentRadioMale: boolean, currentRadioFemale: boolean) => {
+export const genderValidation = (gender: string) => {
   let genderError = '';
 
-  if (!currentRadioMale && !currentRadioFemale) {
+  if (!(gender === 'Male') && !(gender === 'Female')) {
     return (genderError = 'Choose your gender.');
   }
   return (genderError = '');
@@ -52,10 +52,10 @@ export const ganreValidation = (currentSelect: string) => {
   return (selectError = '');
 };
 
-export const fileValidation = (file: React.RefObject<HTMLInputElement>) => {
+export const fileValidation = (file: File[]) => {
   let fileError = '';
 
-  const fileImg = file.current?.files?.[0];
+  const fileImg = file[0];
 
   if (!fileImg) {
     return (fileError = 'Add your avatar');
