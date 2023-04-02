@@ -1,0 +1,46 @@
+@import './variables.scss';
+
+.SearchForm {
+    display: flex;
+    margin: 10px auto;
+    width: 400px;
+    height: 40px; 
+    border: 3px solid $color-searchBar;
+    border-radius: 50px;
+    overflow: hidden;
+    align-items: center;
+}
+
+.SearchForm_input {
+    display: inline-block;
+    width: 100%;
+
+    font: inherit;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 4px;
+}
+
+.SearchForm_input::placeholder {
+    font: inherit;
+    font-size: 18px;
+}
+
+.SearchForm_button {
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    background-color: $color-button-searchBar;
+    color: $color-button-text;
+    border: 0;
+    opacity: 1;
+    transition: opacity $cubic-bezier;
+    cursor: pointer;
+    outline: none;
+}
+
+.SearchForm_button:hover {
+    opacity: 0.6;
+}
