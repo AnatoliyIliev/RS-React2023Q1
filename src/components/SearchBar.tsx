@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from '../styles/SearchBar.module.scss';
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') ?? '');
-
   const [err, setErr] = useState(false);
 
+  const currentQuerry = useRef<string>('');
+
   useEffect(() => {
-    localStorage.setItem('query', searchQuery);
+    currentQuerry.current = searchQuery;
   }, [searchQuery]);
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('query', currentQuerry.current);
+    };
+  }, []);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();

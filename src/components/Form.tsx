@@ -1,78 +1,37 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { PropsFroms, Inputs, ErrorValidation } from '../types';
+import { nanoid } from 'nanoid';
+import { PropsFroms, Inputs } from '../types';
 import styles from '../styles/Form.module.scss';
 
-import {
-  nameValidation,
-  phoneValidation,
-  dateValidation,
-  genderValidation,
-  ganreValidation,
-  fileValidation,
-  checkboxValidation,
-} from './ValidationForm';
-
 function Form({ onSubmitForm }: PropsFroms) {
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
   const [successMsg, setSuccessMsg] = useState('');
-  const [errorValidation, setErrorValidation] = useState<ErrorValidation>({
-    nameValid: '',
-    phoneValid: '',
-    dateValid: '',
-    genderValid: '',
-    ganreValid: '',
-    fileValid: '',
-    checkboxValid: '',
-  });
 
   const onSubmit = ({ name, phone, date, gender, genre, file, checkbox }: Inputs) => {
     const fileImg = file[0];
     const image = fileImg ? URL.createObjectURL(fileImg) : '';
 
-    const nameValid = nameValidation(name);
-    const phoneValid = phoneValidation(phone.toString());
-    const dateValid = dateValidation(date);
-    const genderValid = genderValidation(gender);
-    const ganreValid = ganreValidation(genre);
-    const fileValid = fileValidation(file);
-    const checkboxValid = checkboxValidation(checkbox);
+    onSubmitForm &&
+      onSubmitForm?.({
+        id: Date.now(),
+        name,
+        phone,
+        date,
+        gender,
+        genre,
+        file: image,
+        agree: checkbox,
+      });
 
-    setErrorValidation({
-      nameValid,
-      phoneValid,
-      dateValid,
-      genderValid,
-      ganreValid,
-      fileValid,
-      checkboxValid,
-    });
-    const validation =
-      nameValid === '' &&
-      phoneValid === '' &&
-      dateValid === '' &&
-      genderValid === '' &&
-      ganreValid === '' &&
-      fileValid === '' &&
-      checkboxValid === '';
-
-    if (validation) {
-      onSubmitForm &&
-        onSubmitForm?.({
-          id: Date.now(),
-          name,
-          phone,
-          date,
-          gender,
-          genre,
-          file: image,
-          agree: checkbox,
-        });
-
-      onVisiblMessageSubmit();
-      reset();
-    }
+    onVisiblMessageSubmit();
+    reset();
   };
 
   function onVisiblMessageSubmit() {
@@ -83,84 +42,126 @@ function Form({ onSubmitForm }: PropsFroms) {
     }, 2000);
   }
 
-  const { nameValid, phoneValid, dateValid, genderValid, ganreValid, fileValid, checkboxValid } =
-    errorValidation;
+  const options = [
+    '',
+    'action',
+    'adventure',
+    'comedy',
+    'drama',
+    'crime',
+    'horror',
+    'fantasy',
+    'romance',
+    'animation',
+    'family',
+    'war',
+    'documentary',
+    'musical',
+    'biography',
+    'sci-fi',
+    'western',
+    'post-apocalyptic',
+  ];
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <label>
         <div className={styles.from_name}>Name:*</div>
         <input
+          {...register('name', {
+            required: 'Name is required',
+            pattern: {
+              value: /^[A-Z]/,
+              message: 'The name can only contain letters, an apostrophe, a dash, and spaces',
+            },
+          })}
+          placeholder="Name"
           className={styles.form_input}
           type="text"
-          {...register('name')}
-          placeholder="Name"
           autoFocus
         />
-        {nameValid && <div className={styles.form_erroe_message}>{nameValid}</div>}
+        {errors?.name && <div className={styles.form_erroe_message}>{errors?.name?.message}</div>}
       </label>
       <label>
         <div className={styles.from_name}>Phone Number:*</div>
         <input
+          {...register('phone', {
+            required: 'Phone number is required',
+            pattern: {
+              value: /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
+              message: 'The phone number must be numbers',
+            },
+          })}
           className={styles.form_input}
           type="tel"
-          {...register('phone')}
           placeholder="Phome number"
         />
-        {phoneValid && <div className={styles.form_erroe_message}>{phoneValid}</div>}
+        {errors.phone && <div className={styles.form_erroe_message}>{errors.phone.message}</div>}
       </label>
       <label>
         <div className={styles.from_name}>Birth Date:*</div>
         <input
           className={styles.form_data}
           type="date"
-          {...register('date')}
+          {...register('date', { required: 'Please enter the date of birth' })}
           min="1920-01-01"
           max="2000-01-01"
         />
-        {dateValid && <div className={styles.form_erroe_message}>{dateValid}</div>}
+        {errors.date && <div className={styles.form_erroe_message}>{errors.date.message}</div>}
       </label>
       <label htmlFor="male">
         <div className={styles.from_name}>Gender:*</div>
-        <input type="radio" id="male" value="Male" {...register('gender')} autoComplete="off" />
+        <input
+          type="radio"
+          id="male"
+          value="Male"
+          {...register('gender', { required: 'Choose your gender' })}
+          autoComplete="off"
+        />
         Male
-        <input type="radio" id="male" value="Female" {...register('gender')} autoComplete="off" />
+        <input
+          type="radio"
+          id="male"
+          value="Female"
+          {...register('gender', { required: 'Choose your gender' })}
+          autoComplete="off"
+        />
         Female
-        {genderValid && <div className={styles.form_erroe_message}>{genderValid}</div>}
+        {errors.gender && <div className={styles.form_erroe_message}>{errors.gender.message}</div>}
       </label>
       <label>
         <div className={styles.from_name}>Pick your favorite genre:*</div>
-        <select {...register('genre')}>
-          <option value="">--Genre--</option>
-          <option value="action">action</option>
-          <option value="adventure">adventure</option>
-          <option value="comedy">comedy</option>
-          <option value="drama">drama</option>
-          <option value="crime">crime</option>
-          <option value="horror">horror</option>
-          <option value="fantasy">fantasy</option>
-          <option value="romance">romance</option>
-          <option value="animation">animation</option>
-          <option value="family">family</option>
-          <option value="war">war</option>
-          <option value="documentary">documentary</option>
-          <option value="musical">musical</option>
-          <option value="biography">biography</option>
-          <option value="sci-fi">sci-fi</option>
-          <option value="western">western</option>
-          <option value="post-apocalyptic">post-apocalyptic</option>
+        <select {...register('genre', { required: 'Choose your favorite ganre' })}>
+          {options.map((item) => (
+            <option key={nanoid()} value={item}>
+              {item}
+            </option>
+          ))}
         </select>
-        {ganreValid && <div className={styles.form_erroe_message}>{ganreValid}</div>}
+        {errors.genre && <div className={styles.form_erroe_message}>{errors.genre.message}</div>}
       </label>
       <label>
         <div className={styles.from_name}>Avatar:*</div>
-        <input className={styles.form_file} type="file" {...register('file')} name="file" />
-        {fileValid && <div className={styles.form_erroe_message}>{fileValid}</div>}
+        <input
+          className={styles.form_file}
+          type="file"
+          {...register('file', {
+            required: 'Add your avatar',
+          })}
+          accept=".jpg,.jpeg,.png"
+        />
+        {errors.file && <div className={styles.form_erroe_message}>{errors.file.message}</div>}
       </label>
       <label>
-        <input className={styles.form_checkbox} type="checkbox" {...register('checkbox')} />I
-        consent to my personal data*
-        {checkboxValid && <div className={styles.form_erroe_message}>{checkboxValid}</div>}
+        <input
+          className={styles.form_checkbox}
+          type="checkbox"
+          {...register('checkbox', { required: 'Agree consent to my personal data' })}
+        />
+        I consent to my personal data*
+        {errors.checkbox && (
+          <div className={styles.form_erroe_message}>{errors.checkbox.message}</div>
+        )}
       </label>
       <button type="submit">Submit</button>
       {successMsg && <div className={styles.form_message}>{successMsg}</div>}
