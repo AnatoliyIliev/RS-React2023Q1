@@ -19,8 +19,8 @@ export type PropsCard = {
   cards: Card[];
 };
 
-export interface StateHome {
-  currentQuery: string;
+export interface PropsHome {
+  changeQuery: (searchQuery: string) => void;
 }
 
 export interface ChildrenProps {
