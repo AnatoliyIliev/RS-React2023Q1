@@ -2,7 +2,7 @@ import { PropsCard } from '../types';
 import chooseColor from './chooseColor';
 import styles from '../styles/Cards.module.scss';
 
-function Cards({ cards }: PropsCard) {
+function Cards({ cards, currentCardID }: PropsCard) {
   return (
     <ul className={styles.cards}>
       {cards &&
@@ -12,7 +12,7 @@ function Cards({ cards }: PropsCard) {
           const averageColorStyle = chooseColor(numberOfAverage);
 
           return (
-            <li key={card.id} className={styles.cards_item}>
+            <li key={card.id} className={styles.cards_item} onClick={() => currentCardID(card.id)}>
               <img
                 width="250px"
                 height="375px"
@@ -26,10 +26,6 @@ function Cards({ cards }: PropsCard) {
                 <span className={styles.card_average} style={{ color: `${averageColorStyle}` }}>
                   {numberOfAverage}
                 </span>
-              </div>
-              <div className={styles.card_overview}>
-                <h3>Overview</h3>
-                {card.overview}
               </div>
             </li>
           );

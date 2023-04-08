@@ -4,53 +4,55 @@ import Heading from '../components/Heading';
 import SearchBar from '../components/SearchBar';
 import Cards from '../components/Cards';
 import Modal from '../components/Modal';
+import MovieDetails from '../components/MovieDetails';
 
 import { fetchTopMovie, fetchSeachMovie } from '../api/movieAPI';
-
-// import initialCards from '../initialCards.json';
 
 import { Card } from '../types/index';
 
 function HomePage() {
-  const [movie, setMovie] = useState<Card[]>([]);
+  const [movies, setMovies] = useState<Card[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [movieID, setMovieID] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (searchQuery === '') {
-      fetchTopMovie().then((data) => {
-        setMovie(data.results);
-      });
+    fetchTopMovie().then((data) => {
+      setMovies(data.results);
+    });
+  }, []);
 
+  useEffect(() => {
+    if (!searchQuery) {
       return;
     }
-
     fetchSeachMovie(searchQuery)
       .then((data) => {
-        setMovie(data.results);
+        setMovies(data.results);
       })
       .catch((err) => {
         setError(err.message);
       });
   }, [searchQuery]);
 
-  const toggleModal = () => {
-    setShowModal((prevState) => !prevState);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openModal = (id: number) => {
+    setShowModal(true);
+    setMovieID(id);
   };
 
   return (
     <>
       <Heading>Home Page</Heading>
       <SearchBar changeQuery={(e) => setSearchQuery(e)} />
-      <Cards cards={movie} />
+      <Cards cards={movies} currentCardID={openModal} />
       {showModal && (
-        <Modal onClose={toggleModal}>
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae tenetur inventore
-            sunt fuga, quo qui quae illo nisi, necessitatibus nemo consectetur suscipit doloremque
-            aspernatur delectus amet deleniti deserunt dicta nesciunt.
-          </div>
+        <Modal onClose={closeModal}>
+          <MovieDetails movieID={movieID} />
         </Modal>
       )}
     </>

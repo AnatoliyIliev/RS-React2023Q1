@@ -13,3 +13,7 @@ export function fetchTopMovie() {
 export function fetchSeachMovie(searchQuery: string) {
   return fetchMovie(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchQuery}`);
 }
+
+export function fetchDetailsMovie(id: number) {
+  return fetchMovie(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`);
+}
