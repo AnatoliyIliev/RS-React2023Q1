@@ -31,6 +31,11 @@ export interface ChildrenHeading {
   children: string;
 }
 
+export interface Modal {
+  children: JSX.Element | JSX.Element[];
+  onClose: () => void;
+}
+
 export interface CardForm {
   id: number;
   name: string;

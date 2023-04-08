@@ -20,7 +20,8 @@ function SearchBar({ changeQuery }: PropsHome) {
     };
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
     setErr('');
 
     if (searchQuery.trim() === '') {
