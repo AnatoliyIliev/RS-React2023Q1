@@ -15,7 +15,7 @@
     position: relative;
     overflow: hidden;
     width: 250px;
-    height: 510px;
+    height: 475px;
     background-color: $card-background-color;
     box-shadow: 0 4px 5px $card-shadow;
     color: $card-text-color;
@@ -35,7 +35,7 @@
 
 .card_date {
     position: absolute;
-    bottom: 40px;
+    bottom: 25px;
     right: 33%;
 }
 

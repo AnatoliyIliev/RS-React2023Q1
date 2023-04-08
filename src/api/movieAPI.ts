@@ -1,9 +1,9 @@
 const API_KEY = '62206d4957df9dd79d427a079d453822';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-async function fetchMovie(url = '', config = {}) {
-  const response = await fetch(url, config);
-  return response.ok ? await response.json() : Promise.reject(new Error('No found'));
+async function fetchMovie(url = '') {
+  const response = await fetch(url);
+  return await response.json();
 }
 
 export function fetchTopMovie() {

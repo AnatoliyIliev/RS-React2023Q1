@@ -16,7 +16,7 @@ function MovieDetails({ movieID }: MovieCardID) {
   return (
     <>
       {movie && (
-        <div>
+        <div className={styles.movie}>
           <img
             width="250px"
             height="375px"
@@ -24,13 +24,40 @@ function MovieDetails({ movieID }: MovieCardID) {
             alt={`${movie.title}`}
             className={styles.movie_image}
           />
-          <h2 className={styles.movie_title}>{movie.title}</h2>
-          <h3 className={styles.movie_title}>{movie.tagline}</h3>
-          <div>Genres: {movie.genres.map((genre) => genre.name)}</div>
-          <div>Popularity: {movie.popularity}</div>
-          <div className={styles.movie_overview}>
-            <h3>Overview: </h3>
-            {movie.overview}
+          <div className={styles.movie_info}>
+            <h2 className={styles.movie_title}>{movie.title}</h2>
+            <h3 className={styles.movie_tagline}>{movie.tagline}</h3>
+            <div>Status: {movie.status}</div>
+            <div>Release date: {movie.release_date}</div>
+            <div>Genres: {movie.genres.map((genre) => '/ ' + genre.name + ' /')}</div>
+
+            <div>Vote average: {movie.vote_average}</div>
+            <div>Vote count: {movie.vote_count}</div>
+            <div>Popularity: {movie.popularity}</div>
+            {movie.homepage && (
+              <div>
+                Homepage:
+                <a
+                  style={{ textDecoration: 'none' }}
+                  target="_blank"
+                  href={movie.homepage}
+                  rel="noreferrer"
+                >
+                  {movie.homepage}
+                </a>
+              </div>
+            )}
+
+            <div>Original language: {movie.original_language}</div>
+            <div>Runtime: {movie.runtime} min</div>
+            <div>
+              Spoken languages:{' '}
+              {movie.spoken_languages.map((lang) => '/ ' + lang.english_name + ' /')}
+            </div>
+            <div className={styles.movie_overview}>
+              <h3>Overview: </h3>
+              {movie.overview}
+            </div>
           </div>
         </div>
       )}

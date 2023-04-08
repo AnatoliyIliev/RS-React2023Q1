@@ -29,12 +29,12 @@ export interface MovieDetails {
   overview: string;
   popularity: number;
   poster_path: string;
-  production_companies: string[];
-  production_countries: string[];
+  production_companies: [{ id: number; logo_path: number; name: string; origin_country: string }];
+  production_countries: [{ iso_3166_1: string; name: string }];
   release_date: string;
   revenue: number;
   runtime: number;
-  spoken_languages: string[];
+  spoken_languages: { english_name: string; iso_639_1: string; name: string }[];
   status: string;
   tagline: string;
   title: string;
