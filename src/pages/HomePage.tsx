@@ -52,7 +52,7 @@ function HomePage() {
       <Cards cards={movies} currentCardID={openModal} />
       {showModal && (
         <Modal onClose={closeModal}>
-          <MovieDetails movieID={movieID} />
+          <MovieDetails movieID={movieID} onClose={closeModal} />
         </Modal>
       )}
     </>

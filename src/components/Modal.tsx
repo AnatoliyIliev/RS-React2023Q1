@@ -10,7 +10,7 @@ function Modal({ children, onClose }: Modal) {
   };
 
   return (
-    <div className={styles.modal_backdrop} onClick={handleBackdropClick}>
+    <div className={styles.modal_overlay} onClick={handleBackdropClick}>
       <div className={styles.modal_content}>{children}</div>
     </div>
   );

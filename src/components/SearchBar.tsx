@@ -56,7 +56,9 @@ function SearchBar({ changeQuery }: PropsHome) {
           Search
         </button>
       </form>
-      {err && <div style={{ color: 'red', textAlign: 'center' }}>{err}</div>}
+      <div className={styles.SearchForm_error}>
+        {err && <span style={{ color: 'red', textAlign: 'center' }}>{err}</span>}
+      </div>
     </>
   );
 }

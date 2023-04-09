@@ -1,6 +1,7 @@
 import { PropsCard } from '../types';
 import chooseColor from './chooseColor';
 import styles from '../styles/Cards.module.scss';
+import ImageNotFound from '../assets/img/photo_not_found_512px.png';
 
 function Cards({ cards, currentCardID }: PropsCard) {
   return (
@@ -14,9 +15,11 @@ function Cards({ cards, currentCardID }: PropsCard) {
           return (
             <li key={card.id} className={styles.cards_item} onClick={() => currentCardID(card.id)}>
               <img
-                width="250px"
-                height="375px"
-                src={`https://image.tmdb.org/t/p/w500/${card.poster_path}`}
+                src={
+                  card.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${card.poster_path}`
+                    : ImageNotFound
+                }
                 alt={`${card.title}`}
                 className={styles.card_image}
               />

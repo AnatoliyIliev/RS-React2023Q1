@@ -15,10 +15,10 @@ export interface Card {
   vote_count: number;
 }
 
-export interface MovieDetails {
+export interface MovieDetailsCard {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: number;
+  belongs_to_collection: { id: number; name: string; poster_path: string };
   budget: number;
   genres: [{ id: number; name: string }];
   homepage: string;
@@ -43,6 +43,11 @@ export interface MovieDetails {
   vote_count: number;
 }
 
+export interface MovieCardProps {
+  movieID: number;
+  onClose: () => void;
+}
+
 export type PropsCard = {
   cards: Card[];
   currentCardID: (id: number) => void;
@@ -63,10 +68,6 @@ export interface ChildrenHeading {
 export interface Modal {
   children: JSX.Element | JSX.Element[];
   onClose: () => void;
-}
-
-export interface MovieCardID {
-  movieID: number;
 }
 
 export interface CardForm {
