@@ -4,18 +4,25 @@ import { fetchDetailsMovie } from '../api/movieAPI';
 import { MovieCardProps, MovieDetailsCard } from '../types';
 import styles from '../styles/MovieDetails.module.scss';
 import ImageNotFound from '../assets/img/photo_not_found_512px.png';
+import ImageLoading from '../assets/img/loading-icon-animated-gif-20.jpg';
 
 function MovieDetails({ movieID, onClose }: MovieCardProps) {
   const [movie, setMovie] = useState<MovieDetailsCard>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchDetailsMovie(movieID).then((data) => {
-      setMovie(data);
-    });
+    setLoading(true);
+    fetchDetailsMovie(movieID)
+      .then((data) => data.json())
+      .then((data) => {
+        setMovie(data);
+        setLoading(false);
+      });
   }, [movieID]);
 
   return (
     <>
+      {loading && <img src={ImageLoading} alt="loading..." />}
       {movie && (
         <div className={styles.movie}>
           <button className={styles.close_button} type="button" onClick={onClose}>

@@ -3,7 +3,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 async function fetchMovie(url = '') {
   const response = await fetch(url);
-  return await response.json();
+  return await response;
 }
 
 export function fetchTopMovie() {

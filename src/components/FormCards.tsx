@@ -2,7 +2,7 @@ import styles from '../styles/FormCards.module.scss';
 
 import { PropsFroms } from '../types';
 
-function FormCard({ formCards }: PropsFroms) {
+function FormCards({ formCards }: PropsFroms) {
   return (
     <div>
       <ul className={styles.cards}>
@@ -24,4 +24,4 @@ function FormCard({ formCards }: PropsFroms) {
   );
 }
 
-export default FormCard;
+export default FormCards;

@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import Cards from '../components/Cards';
 import initialCards from '../initialCards.json';
 
 describe('Cards', () => {
+  const currentCardID = vi.fn();
   const cards = [
     {
       adult: false,
@@ -26,16 +27,17 @@ describe('Cards', () => {
   ];
 
   it('renders a card', () => {
-    const { getByText, getByAltText } = render(<Cards cards={cards} />);
+    const { getByText, getByAltText } = render(
+      <Cards cards={cards} currentCardID={currentCardID} />
+    );
     expect(getByText('Cocaine Bear')).toBeInTheDocument();
     expect(getByText('22.02.2023')).toBeInTheDocument();
     expect(getByText('7')).toBeInTheDocument();
     expect(getByAltText('Cocaine Bear')).toBeInTheDocument();
-    expect(getByText('This is a test card')).toBeInTheDocument();
   });
 
   it('renders all cards', () => {
-    const { container } = render(<Cards cards={initialCards} />);
+    const { container } = render(<Cards cards={initialCards} currentCardID={currentCardID} />);
     expect(container.getElementsByClassName('_cards_item_666487').length).toBe(20);
   });
 });

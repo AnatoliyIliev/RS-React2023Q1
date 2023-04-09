@@ -20,6 +20,7 @@ function Movies({ searchQuery, errorMessage }: IMovies) {
 
     if (!searchQuery) {
       fetchTopMovie()
+        .then((data) => data.json())
         .then((data) => {
           setMovies(data.results);
           setStatus(Status.RESOLVED);
@@ -32,6 +33,7 @@ function Movies({ searchQuery, errorMessage }: IMovies) {
     }
 
     fetchSeachMovie(searchQuery)
+      .then((data) => data.json())
       .then((data) => {
         if (data.results.length === 0) {
           setStatus(Status.REJECTED);
