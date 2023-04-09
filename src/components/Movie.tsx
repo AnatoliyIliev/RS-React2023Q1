@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 
-import Heading from '../components/Heading';
-import SearchBar from '../components/SearchBar';
-import Cards from '../components/Cards';
-import Modal from '../components/Modal';
-import MovieDetails from '../components/MovieDetails';
+import Cards from './Cards';
+import Modal from './Modal';
+import MovieDetails from './MovieDetails';
+import LoadingCards from './LoadingCards';
 
 import { fetchTopMovie, fetchSeachMovie } from '../api/movieAPI';
 
-import { Card, Status } from '../types';
+import { Card, Status, IMovies } from '../types';
 
-function Movies() {
+function Movies({ searchQuery, errorMessage }: IMovies) {
   const [movies, setMovies] = useState<Card[]>([]);
-  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') ?? '');
   const [showModal, setShowModal] = useState(false);
   const [movieID, setMovieID] = useState(0);
-  const [error, setError] = useState('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
   useEffect(() => {
@@ -28,7 +25,7 @@ function Movies() {
           setStatus(Status.RESOLVED);
         })
         .catch((err) => {
-          setError(err.message);
+          errorMessage(err.message);
           setStatus(Status.REJECTED);
         });
       return;
@@ -36,14 +33,19 @@ function Movies() {
 
     fetchSeachMovie(searchQuery)
       .then((data) => {
+        if (data.results.length === 0) {
+          setStatus(Status.REJECTED);
+          errorMessage(`"${searchQuery}" is not found`);
+        } else {
+          setStatus(Status.RESOLVED);
+        }
         setMovies(data.results);
-        setStatus(Status.RESOLVED);
       })
       .catch((err) => {
-        setError(err.message);
+        errorMessage(err.message);
         setStatus(Status.REJECTED);
       });
-  }, [searchQuery]);
+  }, [errorMessage, searchQuery]);
 
   const closeModal = () => {
     setShowModal(false);
@@ -54,20 +56,19 @@ function Movies() {
     setMovieID(id);
   };
 
-  if (status === Status.PENDING) {
-  }
-  if (status === Status.RESOLVED) {
-  }
-
   return (
     <>
-      <Heading>Home Page</Heading>
-      <SearchBar changeQuery={setSearchQuery} />
-      <Cards cards={movies} currentCardID={openModal} />
-      {showModal && (
-        <Modal onClose={closeModal}>
-          <MovieDetails movieID={movieID} onClose={closeModal} />
-        </Modal>
+      {status === Status.PENDING && <LoadingCards />}
+      {status === Status.IDLE && <Cards cards={movies} currentCardID={openModal} />}
+      {status === Status.RESOLVED && (
+        <>
+          <Cards cards={movies} currentCardID={openModal} />
+          {showModal && (
+            <Modal onClose={closeModal}>
+              <MovieDetails movieID={movieID} onClose={closeModal} />
+            </Modal>
+          )}
+        </>
       )}
     </>
   );

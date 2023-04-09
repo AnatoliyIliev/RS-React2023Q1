@@ -55,6 +55,7 @@ export type PropsCard = {
 
 export interface PropsHome {
   changeQuery: (searchQuery: string) => void;
+  errorMessage: (errorMessage: string) => void;
 }
 
 export interface ChildrenProps {
@@ -105,4 +106,9 @@ export enum Status {
   PENDING = 'pending',
   RESOLVED = 'resolved',
   REJECTED = 'rejected',
+}
+
+export interface IMovies {
+  searchQuery: string;
+  errorMessage: (errorMessage: string) => void;
 }

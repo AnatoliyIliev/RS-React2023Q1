@@ -4,29 +4,28 @@ import styles from '../styles/SearchBar.module.scss';
 
 import { PropsHome } from '../types';
 
-function SearchBar({ changeQuery }: PropsHome) {
+function SearchBar({ changeQuery, errorMessage }: PropsHome) {
   const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') ?? '');
-  const [err, setErr] = useState('');
 
-  const currentQuerry = useRef<string>('');
+  const currentQuery = useRef<string>('');
 
   useEffect(() => {
-    currentQuerry.current = searchQuery;
+    currentQuery.current = searchQuery;
   }, [searchQuery]);
 
   useEffect(() => {
     return () => {
-      localStorage.setItem('query', currentQuerry.current);
-      changeQuery(currentQuerry.current);
+      localStorage.setItem('query', currentQuery.current);
+      changeQuery(currentQuery.current);
     };
   }, [changeQuery]);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    setErr('');
+    errorMessage('');
 
     if (searchQuery.trim() === '') {
-      setErr('Enter something to search');
+      errorMessage('Enter something to search');
 
       return;
     }
@@ -56,9 +55,6 @@ function SearchBar({ changeQuery }: PropsHome) {
           Search
         </button>
       </form>
-      <div className={styles.SearchForm_error}>
-        {err && <span style={{ color: 'red', textAlign: 'center' }}>{err}</span>}
-      </div>
     </>
   );
 }
