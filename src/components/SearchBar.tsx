@@ -17,8 +17,9 @@ function SearchBar({ changeQuery }: PropsHome) {
   useEffect(() => {
     return () => {
       localStorage.setItem('query', currentQuerry.current);
+      changeQuery(currentQuerry.current);
     };
-  }, []);
+  }, [changeQuery]);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -31,7 +32,6 @@ function SearchBar({ changeQuery }: PropsHome) {
     }
 
     changeQuery(searchQuery);
-    setSearchQuery('');
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

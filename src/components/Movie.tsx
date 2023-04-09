@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import Heading from '../components/Heading';
-// import Movies from '../components/Movie';
-
 import SearchBar from '../components/SearchBar';
 import Cards from '../components/Cards';
 import Modal from '../components/Modal';
@@ -12,7 +10,7 @@ import { fetchTopMovie, fetchSeachMovie } from '../api/movieAPI';
 
 import { Card, Status } from '../types';
 
-function HomePage() {
+function Movies() {
   const [movies, setMovies] = useState<Card[]>([]);
   const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') ?? '');
   const [showModal, setShowModal] = useState(false);
@@ -56,6 +54,11 @@ function HomePage() {
     setMovieID(id);
   };
 
+  if (status === Status.PENDING) {
+  }
+  if (status === Status.RESOLVED) {
+  }
+
   return (
     <>
       <Heading>Home Page</Heading>
@@ -70,4 +73,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Movies;

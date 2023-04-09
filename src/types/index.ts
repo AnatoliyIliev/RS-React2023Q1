@@ -99,3 +99,10 @@ export type Inputs = {
   file: File[];
   checkbox: boolean;
 };
+
+export enum Status {
+  IDLE = 'idle',
+  PENDING = 'pending',
+  RESOLVED = 'resolved',
+  REJECTED = 'rejected',
+}
