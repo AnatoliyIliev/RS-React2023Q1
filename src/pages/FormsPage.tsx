@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../hooks/useActions';
 import { addForm } from '../RTK/formSlice';
 
 import Heading from '../components/Heading';

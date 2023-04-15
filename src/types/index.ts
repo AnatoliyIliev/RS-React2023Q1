@@ -109,3 +109,11 @@ export enum Status {
 export interface IMovies {
   errorMessage: (errorMessage: string) => void;
 }
+export type Error = {
+  data: {
+    status_code: number;
+    status_message: string;
+    success: boolean;
+  };
+  status: number;
+};

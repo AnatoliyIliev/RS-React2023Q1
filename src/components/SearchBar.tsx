@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks/hook';
+import { useAppSelector, useAppDispatch } from '../hooks/useActions';
 import { searchQuery } from '../RTK/searchSlice';
 
 import styles from '../styles/SearchBar.module.scss';

@@ -1,4 +1,4 @@
-import { useAppSelector } from '../hooks/hook';
+import { useAppSelector } from '../hooks/useActions';
 import styles from '../styles/FormCards.module.scss';
 
 function FormCards() {
