@@ -84,7 +84,6 @@ export interface CardForm {
 
 export interface PropsFroms {
   onSubmitForm?: (addNewCard: CardForm) => void;
-  formCards?: CardForm[];
 }
 
 export type StateForm = {

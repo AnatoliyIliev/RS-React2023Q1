@@ -1,8 +1,9 @@
+import { useAppSelector } from '../hooks/hook';
 import styles from '../styles/FormCards.module.scss';
 
-import { PropsFroms } from '../types';
+function FormCards() {
+  const formCards = useAppSelector((state) => state.cards.cardForm);
 
-function FormCards({ formCards }: PropsFroms) {
   return (
     <div>
       <ul className={styles.cards}>
