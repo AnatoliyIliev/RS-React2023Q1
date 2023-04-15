@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAppSelector } from '../hooks/hook';
 
 import Cards from './Cards';
 import Modal from './Modal';
@@ -9,16 +10,18 @@ import { fetchTopMovie, fetchSeachMovie } from '../api/movieAPI';
 
 import { Card, Status, IMovies } from '../types';
 
-function Movies({ searchQuery, errorMessage }: IMovies) {
+function Movies({ errorMessage }: IMovies) {
   const [movies, setMovies] = useState<Card[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [movieID, setMovieID] = useState(0);
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
+  const currentSearch = useAppSelector((state) => state.search.search);
+
   useEffect(() => {
     setStatus(Status.PENDING);
 
-    if (!searchQuery) {
+    if (currentSearch === '') {
       fetchTopMovie()
         .then((data) => data.json())
         .then((data) => {
@@ -32,12 +35,12 @@ function Movies({ searchQuery, errorMessage }: IMovies) {
       return;
     }
 
-    fetchSeachMovie(searchQuery)
+    fetchSeachMovie(currentSearch)
       .then((data) => data.json())
       .then((data) => {
         if (data.results.length === 0) {
           setStatus(Status.REJECTED);
-          errorMessage(`"${searchQuery}" is not found`);
+          errorMessage(`"${currentSearch}" is not found`);
         } else {
           setStatus(Status.RESOLVED);
         }
@@ -47,7 +50,7 @@ function Movies({ searchQuery, errorMessage }: IMovies) {
         errorMessage(err.message);
         setStatus(Status.REJECTED);
       });
-  }, [errorMessage, searchQuery]);
+  }, [errorMessage, currentSearch]);
 
   const closeModal = () => {
     setShowModal(false);

@@ -1,42 +1,34 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../hooks/hook';
+import { searchQuery } from '../RTK/searchSlice';
 
 import styles from '../styles/SearchBar.module.scss';
 
 import { PropsHome } from '../types';
 
-function SearchBar({ changeQuery, errorMessage }: PropsHome) {
-  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('query') ?? '');
+function SearchBar({ errorMessage }: PropsHome) {
+  const currentSearch = useAppSelector((state) => state.search.search);
+  const dispatch = useAppDispatch();
 
-  const currentQuery = useRef<string>('');
-
-  useEffect(() => {
-    currentQuery.current = searchQuery;
-  }, [searchQuery]);
-
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('query', currentQuery.current);
-      changeQuery(currentQuery.current);
-    };
-  }, [changeQuery]);
+  const [search, setSearch] = useState(currentSearch);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     errorMessage('');
 
-    if (searchQuery.trim() === '') {
+    if (search.trim() === '') {
       errorMessage('Enter something to search');
 
       return;
     }
 
-    changeQuery(searchQuery);
+    dispatch(searchQuery(search));
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentSearch = event.currentTarget.value;
+    const search = event.currentTarget.value;
 
-    setSearchQuery(currentSearch);
+    setSearch(search);
   };
 
   return (
@@ -45,7 +37,7 @@ function SearchBar({ changeQuery, errorMessage }: PropsHome) {
         <input
           className={styles.SearchForm_input}
           type="text"
-          value={searchQuery}
+          value={search}
           onChange={handleChange}
           autoComplete="off"
           autoFocus

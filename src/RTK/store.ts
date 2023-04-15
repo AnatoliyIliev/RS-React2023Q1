@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import moviesReducer from '../RTK/movieSlice';
-import cardsReducer from '../RTK/cardsSlice';
+import cardsReducer from './formSlice';
+import searchReducer from '../RTK/searchSlice';
 
 export const store = configureStore({
   reducer: {
+    form: cardsReducer,
+    search: searchReducer,
     movies: moviesReducer,
-    cards: cardsReducer,
   },
 });
 

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { addCards } from '../RTK/cardsSlice';
+import { addForm } from '../RTK/formSlice';
 
 import Heading from '../components/Heading';
 import Form from '../components/Form';
@@ -9,10 +9,10 @@ import { CardForm } from '../types';
 
 function FormsPage() {
   const dispatch = useAppDispatch();
-  const formCards = useAppSelector((state) => state.cards.cardForm);
+  const formCards = useAppSelector((state) => state.form);
 
   const onSubmitForm = (addNewCard: CardForm) => {
-    dispatch(addCards(addNewCard));
+    dispatch(addForm(addNewCard));
   };
 
   return (

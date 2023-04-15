@@ -2,7 +2,7 @@ import { useAppSelector } from '../hooks/hook';
 import styles from '../styles/FormCards.module.scss';
 
 function FormCards() {
-  const formCards = useAppSelector((state) => state.cards.cardForm);
+  const formCards = useAppSelector((state) => state.form);
 
   return (
     <div>

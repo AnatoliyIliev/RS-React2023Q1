@@ -1,22 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { Card, MovieDetailsCard, CardForm } from '../types';
+import { Card } from '../types';
 
-type Movies = {
-  movies: Card[];
-  movieDetails: MovieDetailsCard[];
-  cardForm: CardForm[];
-};
-
-const initialState: Movies = { movies: [], movieDetails: [], cardForm: [] };
+const initialState: Card[] = [];
 
 export const movieSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    movies: (state, action) => {
-      state;
+    movies: (state, action: PayloadAction<Card>) => {
+      state = [action.payload];
     },
   },
 });

@@ -54,7 +54,6 @@ export type PropsCard = {
 };
 
 export interface PropsHome {
-  changeQuery: (searchQuery: string) => void;
   errorMessage: (errorMessage: string) => void;
 }
 
@@ -108,6 +107,5 @@ export enum Status {
 }
 
 export interface IMovies {
-  searchQuery: string;
   errorMessage: (errorMessage: string) => void;
 }
