@@ -1,0 +1,67 @@
+@import './variables.scss';
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(250px, auto));
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    padding: 0;
+    justify-content: center;
+    list-style: none;
+}
+
+.cards_item {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 250px;
+    height: 475px;
+    background-color: $card-background-color;
+    box-shadow: 0 4px 5px $card-shadow;
+    color: $card-text-color;
+    font-size: 18px;
+    border: 2px solid $card-background-color;
+    border-radius: 10px 0px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.card_title {
+    font-size: 20px;
+    margin: 0 5px 10px 5px;
+}
+
+.card_date {
+    position: absolute;
+    bottom: 25px;
+    right: 33%;
+}
+
+.card_image {
+    border-radius: 10px 0px 0px 0px;
+    width: 250px;
+    height: 375px;
+}
+
+.card_circle {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    margin: 0;
+    background: $card-background-circle;
+    border-radius: 100px;
+    transform: translate(-70px, 50%);
+    bottom: -14px;
+    left: 250px;
+}
+
+.card_average {
+    position: absolute;
+    top: 28px;
+    left: 30px;
+    font-size: 20px;
+    color: $average-text-color;
+    font-weight: bold;
+}

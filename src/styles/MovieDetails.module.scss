@@ -1,0 +1,53 @@
+@import './variables.scss';
+
+.movie {
+    position: relative;
+    display: flex
+}
+
+.poster_path {
+    width: 250px;
+    height: 375px;
+}
+
+.movie_info {
+    margin: 20px;
+}
+
+.movie_title, 
+.movie_tagline {
+    text-align: center;
+}
+
+.close_button {
+    position: absolute;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: $modal-close-button-background-color;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.logo_path {
+    display: flex;
+    width: 250px;
+    padding: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo_path_list {
+    list-style-type: none
+}
+
+.logo_path_img {    
+    width: 75px;
+    margin: 10px;
+}
