@@ -1,38 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks/useActions';
-import { useGetTopMovieQuery } from '../RTK Query/movieAPI';
+import { useGetTopMovieQuery, useGetSearchMovieQuery } from '../RTK_Query/movieAPI';
 
 import Cards from './Cards';
 import Modal from './Modal';
 import MovieDetails from './MovieDetails';
 import LoadingCards from './LoadingCards';
 
-// import { fetchTopMovie, fetchSeachMovie } from '../api/movieAPI';
-
 import { Card, Status, IMovies, Error } from '../types';
 
 function Movies({ errorMessage }: IMovies) {
-  const currentSearch = useAppSelector((state) => state.search.search);
-  const { data, isLoading, isError, error } = useGetTopMovieQuery(currentSearch);
-  const topMovies = data?.results;
-
-  const [movies, setMovies] = useState<Card[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [movieID, setMovieID] = useState(0);
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  // console.log('isLoading', isLoading);
-  // console.log('data', data);
-  // console.log('isError', isError);
-  // console.log('error', (error as Error)?.data);
+  const currentSearch = useAppSelector((state) => state.search.search);
+
+  const GetTopMovie = useGetTopMovieQuery('');
+  const GetSearchMovie = useGetSearchMovieQuery(currentSearch);
+
+  const topMovies = GetTopMovie.data?.results;
+  const SearchMovie = GetSearchMovie.data?.results;
+
+  const [movies, setMovies] = useState<Card[]>([]);
 
   useEffect(() => {
     setStatus(Status.PENDING);
 
-    if (isError) {
-      const errorServerMessage = (error as Error)?.data.status_message;
+    if (GetTopMovie.error || GetSearchMovie.error) {
+      const TopMovieErrorMessage = (GetTopMovie.error as Error)?.data.status_message;
+      const SearchMovieErrorMessage = (GetSearchMovie.error as Error)?.data.status_message;
 
-      errorMessage(errorServerMessage);
+      const error = TopMovieErrorMessage ?? SearchMovieErrorMessage;
+      errorMessage(error);
       setStatus(Status.REJECTED);
     }
 
@@ -42,41 +42,17 @@ function Movies({ errorMessage }: IMovies) {
 
       return;
     }
-  }, [currentSearch, topMovies, isError, errorMessage, error]);
 
-  // useEffect(() => {
-  //   setStatus(Status.PENDING);
-
-  //   if (currentSearch === '') {
-  //     fetchTopMovie()
-  //       .then((data) => data.json())
-  //       .then((data) => {
-  //         setMovies(data.results);
-  //         setStatus(Status.RESOLVED);
-  //       })
-  //       .catch((err) => {
-  //         errorMessage(err.message);
-  //         setStatus(Status.REJECTED);
-  //       });
-  //     return;
-  //   }
-
-  //   fetchSeachMovie(currentSearch)
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       if (data.results.length === 0) {
-  //         setStatus(Status.REJECTED);
-  //         errorMessage(`"${currentSearch}" is not found`);
-  //       } else {
-  //         setStatus(Status.RESOLVED);
-  //       }
-  //       setMovies(data.results);
-  //     })
-  //     .catch((err) => {
-  //       errorMessage(err.message);
-  //       setStatus(Status.REJECTED);
-  //     });
-  // }, [errorMessage, currentSearch]);
+    setMovies(SearchMovie);
+    setStatus(Status.RESOLVED);
+  }, [
+    GetSearchMovie.error,
+    GetTopMovie.error,
+    SearchMovie,
+    currentSearch,
+    errorMessage,
+    topMovies,
+  ]);
 
   const closeModal = () => {
     setShowModal(false);

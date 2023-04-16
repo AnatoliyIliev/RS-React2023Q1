@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
-import { fetchDetailsMovie } from '../api/movieAPI';
+import { useGetMovieByIDQuery } from '../RTK_Query/movieAPI';
 
-import { MovieCardProps, MovieDetailsCard } from '../types';
+import { MovieCardProps } from '../types';
+
 import styles from '../styles/MovieDetails.module.scss';
 import ImageNotFound from '../assets/img/photo_not_found_512px.png';
 import ImageLoading from '../assets/img/loading-icon-animated-gif-20.jpg';
 
 function MovieDetails({ movieID, onClose }: MovieCardProps) {
-  const [movie, setMovie] = useState<MovieDetailsCard>();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    fetchDetailsMovie(movieID)
-      .then((data) => data.json())
-      .then((data) => {
-        setMovie(data);
-        setLoading(false);
-      });
-  }, [movieID]);
+  const { data, isLoading } = useGetMovieByIDQuery(movieID);
 
   return (
     <>
-      {loading && <img src={ImageLoading} alt="loading..." />}
-      {movie && (
+      {isLoading && <img src={ImageLoading} alt="loading..." />}
+      {data && (
         <div className={styles.movie}>
           <button className={styles.close_button} type="button" onClick={onClose}>
             &#10060;
@@ -32,14 +21,14 @@ function MovieDetails({ movieID, onClose }: MovieCardProps) {
             <img
               className={styles.poster_path}
               src={
-                movie.poster_path
-                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                data.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${data.poster_path}`
                   : ImageNotFound
               }
-              alt={`${movie.title}`}
+              alt={`${data.title}`}
             />
             <ul className={styles.logo_path}>
-              {movie.production_companies.map((companie) => {
+              {data.production_companies.map((companie) => {
                 if (companie.logo_path) {
                   return (
                     <li key={companie.id} className={styles.logo_path_list}>
@@ -55,49 +44,49 @@ function MovieDetails({ movieID, onClose }: MovieCardProps) {
             </ul>
           </div>
           <div className={styles.movie_info}>
-            <h2 className={styles.movie_title}>{movie.title}</h2>
-            <h3 className={styles.movie_tagline}>{movie.tagline}</h3>
-            <div>Status: {movie.status}</div>
-            <div>Release date: {movie.release_date}</div>
-            {movie.belongs_to_collection && (
-              <div>Collections: {movie.belongs_to_collection.name}</div>
+            <h2 className={styles.movie_title}>{data.title}</h2>
+            <h3 className={styles.movie_tagline}>{data.tagline}</h3>
+            <div>Status: {data.status}</div>
+            <div>Release date: {data.release_date}</div>
+            {data.belongs_to_collection && (
+              <div>Collections: {data.belongs_to_collection.name}</div>
             )}
-            <div>Genres: {movie.genres.map((genre) => '/ ' + genre.name + ' /')}</div>
-            <div>Vote average: {movie.vote_average}</div>
-            <div>Vote count: {movie.vote_count}</div>
-            <div>Popularity: {movie.popularity}</div>
-            {movie.homepage && (
+            <div>Genres: {data.genres.map((genre) => '/ ' + genre.name + ' /')}</div>
+            <div>Vote average: {data.vote_average}</div>
+            <div>Vote count: {data.vote_count}</div>
+            <div>Popularity: {data.popularity}</div>
+            {data.homepage && (
               <div>
                 Homepage:
                 <a
                   style={{ textDecoration: 'none' }}
                   target="_blank"
-                  href={movie.homepage}
+                  href={data.homepage}
                   rel="noreferrer"
                 >
-                  {movie.homepage}
+                  {data.homepage}
                 </a>
               </div>
             )}
-            <div>Original language: {movie.original_language}</div>
-            <div>Runtime: {movie.runtime} min</div>
-            <div>Budget: ${movie.budget}</div>
-            <div>Revenue: ${movie.revenue}</div>
+            <div>Original language: {data.original_language}</div>
+            <div>Runtime: {data.runtime} min</div>
+            <div>Budget: ${data.budget}</div>
+            <div>Revenue: ${data.revenue}</div>
             <div>
               Spoken languages:{' '}
-              {movie.spoken_languages.map((lang) => '/ ' + lang.english_name + ' /')}
+              {data.spoken_languages.map((lang) => '/ ' + lang.english_name + ' /')}
             </div>
             <div>
               Production countries:{' '}
-              {movie.production_countries.map((lang) => '/ ' + lang.name + ' /')}
+              {data.production_countries.map((lang) => '/ ' + lang.name + ' /')}
             </div>
             <div>
               Production companies:{' '}
-              {movie.production_companies.map((lang) => '/ ' + lang.name + ' /')}
+              {data.production_companies.map((lang) => '/ ' + lang.name + ' /')}
             </div>
             <div className={styles.movie_overview}>
               <h3>Overview: </h3>
-              {movie.overview}
+              {data.overview}
             </div>
           </div>
         </div>

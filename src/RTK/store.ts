@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cardsReducer from './formSlice';
 import searchReducer from '../RTK/searchSlice';
-import { topMovieApi } from '../RTK Query/movieAPI';
+import { MovieApi } from '../RTK_Query/movieAPI';
 
 export const store = configureStore({
   reducer: {
     form: cardsReducer,
     search: searchReducer,
-    [topMovieApi.reducerPath]: topMovieApi.reducer,
+    [MovieApi.reducerPath]: MovieApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(topMovieApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(MovieApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
