@@ -1,11 +1,13 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect } from 'vitest';
 import FormCards from '../components/FormCards';
-import { CardForm } from '../types';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 describe('FormCard', () => {
-  it('renders form data correctly', () => {
-    const cards: CardForm[] = [
+  const initialState = {
+    form: [
       {
         id: 1,
         name: 'Alex',
@@ -26,22 +28,37 @@ describe('FormCard', () => {
         file: 'https://example.com/avatar2.jpg',
         agree: false,
       },
-    ];
+    ],
+  };
 
-    const { getByText } = render(<FormCards formCards={cards} />);
+  const reducer = (state = initialState, action: { type: unknown }) => {
+    switch (action.type) {
+      default:
+        return state;
+    }
+  };
 
-    expect(getByText('Name: Alex')).toBeInTheDocument();
-    expect(getByText('Phone Number: 1234567890')).toBeInTheDocument();
-    expect(getByText('Birth Date: 01/01/1990')).toBeInTheDocument();
-    expect(getByText('Gender: Male')).toBeInTheDocument();
-    expect(getByText('My favorite genre: Action')).toBeInTheDocument();
-    expect(getByText('I consent to my personal data: Yes')).toBeInTheDocument();
+  const store = createStore(reducer);
 
-    expect(getByText('Name: Dima')).toBeInTheDocument();
-    expect(getByText('Phone Number: 9876543210')).toBeInTheDocument();
-    expect(getByText('Birth Date: 02/02/1995')).toBeInTheDocument();
-    expect(getByText('Gender: Female')).toBeInTheDocument();
-    expect(getByText('My favorite genre: Comedy')).toBeInTheDocument();
-    expect(getByText('I consent to my personal data: No')).toBeInTheDocument();
+  it('renders form data correctly', () => {
+    render(
+      <Provider store={store}>
+        <FormCards />
+      </Provider>
+    );
+
+    expect(screen.getByText('Name: Alex')).toBeInTheDocument();
+    expect(screen.getByText('Phone Number: 1234567890')).toBeInTheDocument();
+    expect(screen.getByText('Birth Date: 01/01/1990')).toBeInTheDocument();
+    expect(screen.getByText('Gender: Male')).toBeInTheDocument();
+    expect(screen.getByText('My favorite genre: Action')).toBeInTheDocument();
+    expect(screen.getByText('I consent to my personal data: Yes')).toBeInTheDocument();
+
+    expect(screen.getByText('Name: Dima')).toBeInTheDocument();
+    expect(screen.getByText('Phone Number: 9876543210')).toBeInTheDocument();
+    expect(screen.getByText('Birth Date: 02/02/1995')).toBeInTheDocument();
+    expect(screen.getByText('Gender: Female')).toBeInTheDocument();
+    expect(screen.getByText('My favorite genre: Comedy')).toBeInTheDocument();
+    expect(screen.getByText('I consent to my personal data: No')).toBeInTheDocument();
   });
 });
