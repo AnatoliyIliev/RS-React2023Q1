@@ -18,8 +18,8 @@
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./src",
-    "types": ["vite/client", "@testing-library/jest-dom"]
+    "types": ["vite/client", "@testing-library/jest-dom", "node"]
   },
-  "include": ["vite.config.ts", ".eslintrc.cjs", "src"],
+  "include": ["vite.config.ts", ".eslintrc.cjs", "src", "server"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
