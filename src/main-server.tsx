@@ -1,16 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
+import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom/server';
+
 import App from './App';
 import { store } from './RTK/store';
 import { Provider } from 'react-redux';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+export function render(url: string, options: RenderToPipeableStreamOptions) {
+  return renderToPipeableStream(
     <Provider store={store}>
-      <HashRouter>
+      <StaticRouter location={url}>
         <App />
-      </HashRouter>
-    </Provider>
-  </React.StrictMode>
-);
+      </StaticRouter>
+    </Provider>,
+    options
+  );
+}
