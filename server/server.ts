@@ -4,7 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 
-const PORT = process.env.PORT || 5003;
+const PORT = 5003;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

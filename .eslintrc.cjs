@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -9,6 +10,7 @@ module.exports = {
     'prettier',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    'plugin: cypress/recommended',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
@@ -45,4 +47,5 @@ module.exports = {
       version: 'detect',
     },
   },
+  eslintIgnore: ['cypress.config.ts'],
 };
