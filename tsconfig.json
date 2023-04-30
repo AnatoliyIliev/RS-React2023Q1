@@ -18,8 +18,8 @@
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./src",
-    "types": ["vite/client", "@testing-library/jest-dom", "node"]
+    "types": ["vite/client", "@testing-library/jest-dom", "node", "cypress", "cypress-file-upload"]
   },
-  "include": ["vite.config.ts", ".eslintrc.cjs", "src", "server"],
+  "include": ["vite.config.ts", ".eslintrc.cjs", "src", "server", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

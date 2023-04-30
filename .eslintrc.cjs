@@ -10,7 +10,7 @@ module.exports = {
     'prettier',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
-    'plugin: cypress/recommended',
+    'plugin:cypress/recommended',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
@@ -47,5 +47,4 @@ module.exports = {
       version: 'detect',
     },
   },
-  eslintIgnore: ['cypress.config.ts'],
 };

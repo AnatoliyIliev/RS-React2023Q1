@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-import MyFunction from '@cypress/code-coverage/task';
+import coverageTask from '@cypress/code-coverage/task';
 
 export default defineConfig({
   env: {
@@ -8,12 +8,13 @@ export default defineConfig({
     },
   },
   e2e: {
-    baseUrl: 'http://localhost:5003',
+    baseUrl: 'http://localhost:5173',
     setupNodeEvents(on, config) {
-      MyFunction(on, config);
+      coverageTask(on, config);
       return config;
     },
     video: false,
+    pageLoadTimeout: 3000,
   },
   component: {
     devServer: {
@@ -21,7 +22,7 @@ export default defineConfig({
       bundler: 'vite',
     },
     setupNodeEvents(on, config) {
-      MyFunction(on, config);
+      coverageTask(on, config);
       return config;
     },
     video: false,
