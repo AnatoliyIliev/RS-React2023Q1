@@ -8,6 +8,7 @@ describe('SearchBar', () => {
     cy.get('[class*=SearchForm_input]').should('be.visible');
     cy.get('[class*=SearchForm_button]').should('be.visible');
 
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get('[class*=SearchForm_input]').type('dog').should('have.value', 'dog');
     cy.get('[class*=SearchForm_button]').should('be.visible').click();
   });

@@ -7,7 +7,7 @@ describe('Cards', () => {
     else if (value >= 8) return 'green';
   }
   it('should display the correct movie information for each card', () => {
-    const averageColorStyle = chooseColor(6);
+    chooseColor(6);
 
     cy.visit('/');
 
