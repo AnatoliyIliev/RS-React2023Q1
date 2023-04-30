@@ -1,0 +1,23 @@
+@import './variables.scss';
+
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $modal-overlay-color;
+}
+
+.modal_content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 300px;
+  min-width: 600px;
+  padding: 12px;
+  background-color: $modal-content-background-color;
+  border-radius: 3px;
+  box-shadow: $modal-content-shadow;
+}

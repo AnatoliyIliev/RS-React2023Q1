@@ -1,0 +1,28 @@
+@import './variables.scss';
+
+.navigation,
+.activeStyle {
+  margin-left: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: $text-color-header;
+  text-decoration: none;
+}
+
+.activeStyle {
+  color: $color-active;
+  text-decoration: underline;
+}
+
+.navigation:hover {
+  color: $color-active;
+}
+
+.page {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding-right: 10px;
+}
